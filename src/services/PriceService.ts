@@ -38,7 +38,7 @@ export const getDailyPriceInfo = async (
 
 export const getDailyAverages = async (
     date: DateTime,
-): Promise<DailyAverage[] | null> => {
+): Promise<DailyAverage[]> => {
     const dateStr = date.toFormat("yyyy-MM-dd")
 
     try {
@@ -56,6 +56,6 @@ export const getDailyAverages = async (
         } else {
             console.error("An unknown error occurred.")
         }
-        return null
+        return []
     }
 }

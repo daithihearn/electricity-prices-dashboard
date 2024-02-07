@@ -4,7 +4,9 @@ import Annotation from "chartjs-plugin-annotation"
 import { useTheme } from "@mui/material/styles"
 import { useI18nContext } from "i18n/i18n-react"
 import { useDateTime } from "hooks/RegionalDateTime"
-import { DailyAverage } from "models/DailyAverage"
+import { usePriceInfo } from "hooks/usePriceInfo"
+import WithLoading from "./WithLoading"
+import { Container, Typography } from "@mui/material"
 
 Chart.register(Annotation)
 
@@ -19,19 +21,16 @@ const hexToRGBA = (hex: string, alpha: number) => {
 }
 
 export interface DailyAverageChartProps {
-    averages: DailyAverage[]
-    average: number
     chartId: string
     dateFormat: string
 }
 
 const DailyAverageChart: React.FC<DailyAverageChartProps> = ({
-    averages,
-    average,
     chartId,
     dateFormat,
 }) => {
     const { LL } = useI18nContext()
+    const { isLoading, dailyAverages, thirtyDayAverage } = usePriceInfo("today")
     const { fromISO } = useDateTime()
     const theme = useTheme()
     const chartRef = useRef<Chart | null>(null)
@@ -108,8 +107,8 @@ const DailyAverageChart: React.FC<DailyAverageChartProps> = ({
     }, [theme])
 
     const averageDataset = useMemo(
-        () => Array<number>(averages.length).fill(average),
-        [averages, average],
+        () => Array<number>(dailyAverages.length).fill(thirtyDayAverage),
+        [dailyAverages, thirtyDayAverage],
     )
 
     const chartData: ChartData<"line", (number | null)[]> = useMemo(() => {
@@ -118,7 +117,7 @@ const DailyAverageChart: React.FC<DailyAverageChartProps> = ({
         datasets.push(
             {
                 label: LL.MEDIAN(),
-                data: averages.map(item => item.average),
+                data: dailyAverages.map(item => item.average),
                 borderColor: theme.palette.info.main,
                 backgroundColor: hexToRGBA(theme.palette.info.main, 0.4),
                 pointRadius: 0,
@@ -133,14 +132,14 @@ const DailyAverageChart: React.FC<DailyAverageChartProps> = ({
         )
 
         return {
-            labels: averages.map(item =>
+            labels: dailyAverages.map(item =>
                 fromISO(item.date).toFormat(dateFormat),
             ),
             datasets: datasets,
         }
     }, [
         LL,
-        averages,
+        dailyAverages,
         theme.palette.info.main,
         theme.palette.secondary.main,
         averageDataset,
@@ -172,7 +171,22 @@ const DailyAverageChart: React.FC<DailyAverageChartProps> = ({
         }
     }, [chartData, chartOptions, chartId])
 
-    return <canvas id={ID_PREFIX + chartId} />
+    return (
+        <WithLoading isLoading={isLoading}>
+            <Container sx={{ p: 2 }}>
+                <Typography
+                    variant="h2"
+                    component="h2"
+                    align="left"
+                    gutterBottom>
+                    {LL.LAST_THIRTY_DAYS()}
+                </Typography>
+            </Container>
+            <Container sx={{ p: 2, height: "400px" }}>
+                <canvas id={ID_PREFIX + chartId} />
+            </Container>
+        </WithLoading>
+    )
 }
 
 export default DailyAverageChart

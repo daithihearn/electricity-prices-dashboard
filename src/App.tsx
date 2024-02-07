@@ -6,6 +6,7 @@ import { Box, CssBaseline, createTheme, useMediaQuery } from "@mui/material"
 import TypesafeI18n from "i18n/i18n-react"
 import { loadLocale } from "i18n/i18n-util.sync"
 import { Locales } from "i18n/i18n-types"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import mixpanel from "mixpanel-browser"
 
 mixpanel.init("c22c74cac287fb74387b7ce250f1548f")
@@ -13,6 +14,7 @@ mixpanel.init("c22c74cac287fb74387b7ce250f1548f")
 function App() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
     const locale: Locales = navigator?.language.startsWith("en") ? "en" : "es"
+    const queryClient = new QueryClient()
 
     useEffect(() => {
         mixpanel.track("Website Accessed")
@@ -27,7 +29,7 @@ function App() {
     )
     loadLocale(locale)
     return (
-        <>
+        <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
                 <Box sx={{ display: "flex" }}>
                     <CssBaseline />
@@ -36,7 +38,7 @@ function App() {
                     </TypesafeI18n>
                 </Box>
             </ThemeProvider>
-        </>
+        </QueryClientProvider>
     )
 }
 

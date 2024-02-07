@@ -53,20 +53,13 @@ type RootTranslation = {
 	 */
 	THIRTY_DAY_AVG: string
 	/**
-	 * M​a​ñ​a​n​a​ ​{​c​u​r​r​e​n​t​D​a​t​e​}​ ​e​s​ ​u​n​ ​d​í​a​ ​B​U​E​N​O
-	 * @param {string} currentDate
+	 * H​o​y
 	 */
-	TOMORROW_RATING_GOOD: RequiredParams<'currentDate'>
+	TODAY: string
 	/**
-	 * M​a​ñ​a​n​a​ ​{​c​u​r​r​e​n​t​D​a​t​e​}​ ​e​s​ ​u​n​ ​d​í​a​ ​M​A​L​O
-	 * @param {string} currentDate
+	 * M​a​ñ​a​n​a
 	 */
-	TOMORROW_RATING_BAD: RequiredParams<'currentDate'>
-	/**
-	 * M​a​ñ​a​n​a​ ​{​c​u​r​r​e​n​t​D​a​t​e​}​ ​e​s​ ​u​n​ ​d​í​a​ ​N​O​R​M​A​L
-	 * @param {string} currentDate
-	 */
-	TOMORROW_RATING_NORMAL: RequiredParams<'currentDate'>
+	TOMORROW: string
 	/**
 	 * L​o​s​ ​d​a​t​o​s​ ​d​e​ ​m​a​ñ​a​n​a​ ​a​ú​n​ ​n​o​ ​e​s​t​á​n​ ​d​i​s​p​o​n​i​b​l​e​s​.​ ​L​o​s​ ​p​r​e​c​i​o​s​ ​s​u​e​l​e​n​ ​e​s​t​a​r​ ​d​i​s​p​o​n​i​b​l​e​s​ ​d​e​s​p​u​é​s​ ​d​e​ ​l​a​s​ ​2​0​:​3​0
 	 */
@@ -119,17 +112,13 @@ export type TranslationFunctions = {
 	 */
 	THIRTY_DAY_AVG: () => LocalizedString
 	/**
-	 * Mañana {currentDate} es un día BUENO
+	 * Hoy
 	 */
-	TOMORROW_RATING_GOOD: (arg: { currentDate: string }) => LocalizedString
+	TODAY: () => LocalizedString
 	/**
-	 * Mañana {currentDate} es un día MALO
+	 * Mañana
 	 */
-	TOMORROW_RATING_BAD: (arg: { currentDate: string }) => LocalizedString
-	/**
-	 * Mañana {currentDate} es un día NORMAL
-	 */
-	TOMORROW_RATING_NORMAL: (arg: { currentDate: string }) => LocalizedString
+	TOMORROW: () => LocalizedString
 	/**
 	 * Los datos de mañana aún no están disponibles. Los precios suelen estar disponibles después de las 20:30
 	 */

@@ -9,9 +9,8 @@ const es = {
     MIN_PRICE: "Precio min - {minPrice:string}",
     MAX_PRICE: "Precio max - {maxPrice:string}",
     THIRTY_DAY_AVG: "Precio promedio de 30 días",
-    TOMORROW_RATING_GOOD: "Mañana {currentDate:string} es un día BUENO",
-    TOMORROW_RATING_BAD: "Mañana {currentDate:string} es un día MALO",
-    TOMORROW_RATING_NORMAL: "Mañana {currentDate:string} es un día NORMAL",
+    TODAY: "Hoy",
+    TOMORROW: "Mañana",
     TOMORROW_NO_DATA:
         "Los datos de mañana aún no están disponibles. Los precios suelen estar disponibles después de las 20:30",
     LAST_THIRTY_DAYS: "Últimos 30 días",
