@@ -72,7 +72,7 @@ const PriceChart: React.FC<PriceChartProps> = ({
         updateData()
 
         // Set the interval to run the function every minute
-        const intervalId = setInterval(updateData, 10 * 60 * 1000)
+        const intervalId = setInterval(updateData, 60 * 1000)
 
         // Cleanup function to clear the interval when the component is unmounted
         return () => {

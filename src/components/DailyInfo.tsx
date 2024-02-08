@@ -2,7 +2,7 @@ import { Grid } from "@mui/material"
 import Metric from "./Metric"
 import { useI18nContext } from "i18n/i18n-react"
 import { useDateTime } from "hooks/RegionalDateTime"
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { DailyPriceInfo } from "models/DailyPriceInfo"
 
 export interface DailyInfoProps {
@@ -16,12 +16,27 @@ const DailyInfo: React.FC<DailyInfoProps> = ({
 }) => {
     const { LL } = useI18nContext()
     const { now, fromISO } = useDateTime()
+    const [isToday, setIsToday] = useState(false)
 
-    const isToday = useMemo(() => {
-        if (dailyInfo.prices.length === 0) return false
-        const currentDate = fromISO(dailyInfo.prices[0].dateTime)
-        return currentDate.hasSame(now(), "day")
-    }, [dailyInfo.prices, fromISO, now])
+    useEffect(() => {
+        if (dailyInfo.prices.length === 0) return
+
+        const updateData = () => {
+            const currentDate = fromISO(dailyInfo.prices[0].dateTime)
+            setIsToday(currentDate.hasSame(now(), "day"))
+        }
+
+        // Run the function on component load
+        updateData()
+
+        // Set the interval to run the function every minute
+        const intervalId = setInterval(updateData, 60 * 1000)
+
+        // Cleanup function to clear the interval when the component is unmounted
+        return () => {
+            clearInterval(intervalId)
+        }
+    }, [dailyInfo.prices, fromISO, now, setIsToday])
 
     const currentPrice = useMemo(() => {
         if (!isToday) return null
