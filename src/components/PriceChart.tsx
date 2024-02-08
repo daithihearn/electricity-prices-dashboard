@@ -46,7 +46,7 @@ const PriceChart: React.FC<PriceChartProps> = ({
 
     useEffect(() => {
         if (!showCurrentPrice || prices.length <= 1) return
-        // Function to be executed every minute
+
         const updateData = () => {
             if (!showCurrentPrice || prices.length <= 1) return
 
@@ -71,8 +71,8 @@ const PriceChart: React.FC<PriceChartProps> = ({
         // Run the function on component load
         updateData()
 
-        // Set the interval to run the function every 10 minutes
-        const intervalId = setInterval(updateData, 10 * 60 * 1000)
+        // Set the interval to run the function every 5 minutes
+        const intervalId = setInterval(updateData, 5 * 60 * 1000)
 
         // Cleanup function to clear the interval when the component is unmounted
         return () => {

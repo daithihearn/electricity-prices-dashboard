@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Paper from "@mui/material/Paper"
@@ -76,5 +76,19 @@ const DashboardContent: React.FC = () => {
 }
 
 export default function Dashboard() {
+    // At the start of every hour we want to refetch the data
+    const { now } = useDateTime()
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (now().minute === 0) {
+                window.location.reload()
+            }
+        }, 35 * 1000)
+
+        return () => {
+            clearInterval(intervalId)
+        }
+    }, [now])
+
     return <DashboardContent />
 }
