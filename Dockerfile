@@ -1,5 +1,5 @@
 # build
-FROM node:20.11 AS builder
+FROM node:20.17-alpine3.20 AS builder
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 RUN yarn build
 
 # deployment
-FROM nginx:1.19-alpine AS deployment
+FROM node:20.17-alpine3.20 AS deployment
 
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf.template
